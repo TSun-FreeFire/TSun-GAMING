@@ -1,0 +1,55 @@
+name: tsun_gaming
+description: "TSun Gaming - Guest Account Manager for Free Fire"
+publish_to: 'none'
+version: 2.0.5+205
+
+environment:
+  sdk: ^3.10.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # UI & Icons
+  cupertino_icons: ^1.0.8
+  google_fonts: ^6.2.1
+  
+  # State Management
+  get: ^4.6.6
+  
+  # Image Slider
+  carousel_slider: ^5.0.0
+  
+  # File & Storage
+  path_provider: ^2.1.5
+  permission_handler: ^12.0.1
+  
+  # URL & App Launching
+  url_launcher: ^6.3.1
+  android_intent_plus: ^5.0.0
+  
+  # Animations
+  flutter_animate: ^4.5.0
+  
+  # UI Feedback
+  fluttertoast: ^9.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.3
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/images/
+    - assets/logo/
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/logo/app_logo.png"
+  adaptive_icon_background: "#000000"
+  adaptive_icon_foreground: "assets/logo/app_logo.png"
