@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'core/constants/app_colors.dart';
+import 'core/theme/app_theme.dart';
+import 'core/constants/app_strings.dart';
 import 'views/splash_screen.dart';
 
 void main() {
@@ -19,7 +19,7 @@ void main() {
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.light,
-      systemNavigationBarColor: AppColors.background,
+      systemNavigationBarColor: AppTheme.bgCore,
       systemNavigationBarIconBrightness: Brightness.light,
     ),
   );
@@ -35,19 +35,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'TSun GAMING',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: AppColors.background,
-        primaryColor: AppColors.primary,
-        colorScheme: ColorScheme.dark(
-          primary: AppColors.primary,
-          secondary: AppColors.secondary,
-          surface: AppColors.surface,
-          error: AppColors.error,
-        ),
-        textTheme: GoogleFonts.poppinsTextTheme(ThemeData.dark().textTheme),
-      ),
+      theme: AppTheme.darkTheme,
       home: const SplashScreen(),
     );
   }

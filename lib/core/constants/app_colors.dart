@@ -1,32 +1,31 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 
+/// Legacy AppColors - Redirects to new AppTheme for backward compatibility
+/// @deprecated Use AppTheme instead
 class AppColors {
-  // Primary Colors
-  static const Color primary = Color(0xFFFF6B35);
-  static const Color secondary = Color(0xFF004E89);
-  static const Color accent = Color(0xFF1B998B);
+  // Primary Colors (redirected to AppTheme)
+  static const Color primary = AppTheme.primary;
+  static const Color secondary = AppTheme.accentCyan;
+  static const Color accent = AppTheme.accentPurple;
   
   // Background Colors
-  static const Color background = Color(0xFF0A0E27);
-  static const Color surface = Color(0xFF1A1F3A);
+  static const Color background = AppTheme.bgCore;
+  static const Color surface = AppTheme.bgSurface;
   
   // Text Colors
-  static const Color textPrimary = Color(0xFFFFFFFF);
-  static const Color textSecondary = Color(0xFFB8C5D6);
+  static const Color textPrimary = AppTheme.textMain;
+  static const Color textSecondary = AppTheme.textMuted;
   
   // Status Colors
-  static const Color error = Color(0xFFF72585);
-  static const Color success = Color(0xFF06FFA5);
+  static const Color error = AppTheme.error;
+  static const Color success = AppTheme.success;
   
   // Gradient Colors
-  static const LinearGradient primaryGradient = LinearGradient(
-    colors: [Color(0xFFFF6B35), Color(0xFFF7931E)],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-  );
+  static const LinearGradient primaryGradient = AppTheme.fireGradient;
   
   static const LinearGradient backgroundGradient = LinearGradient(
-    colors: [Color(0xFF0A0E27), Color(0xFF1A1F3A)],
+    colors: [AppTheme.bgCore, AppTheme.bgSurface],
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );

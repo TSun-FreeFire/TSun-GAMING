@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../constants/app_strings.dart';
 
@@ -54,7 +53,7 @@ class FileService {
       await file.writeAsString(jsonEncode(data));
       return true;
     } catch (e) {
-      debugPrint('Error injecting credentials: $e');
+      print('Error injecting credentials: $e');
       return false;
     }
   }
@@ -70,7 +69,7 @@ class FileService {
       }
       return true;
     } catch (e) {
-      debugPrint('Error clearing data: $e');
+      print('Error clearing data: $e');
       return false;
     }
   }
@@ -91,7 +90,7 @@ class FileService {
       }
       return null;
     } catch (e) {
-      debugPrint('Error reading credentials: $e');
+      print('Error reading credentials: $e');
       return null;
     }
   }

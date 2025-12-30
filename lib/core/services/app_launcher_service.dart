@@ -1,5 +1,4 @@
 import 'package:android_intent_plus/android_intent.dart';
-import 'package:flutter/foundation.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../constants/app_strings.dart';
 
@@ -18,7 +17,7 @@ class AppLauncherService {
         installedGames.add(AppStrings.freeFirePackage);
       }
     } catch (e) {
-      debugPrint('Free Fire not installed');
+      print('Free Fire not installed');
     }
     
     // Check for Free Fire Max
@@ -32,7 +31,7 @@ class AppLauncherService {
         installedGames.add(AppStrings.freeFireMaxPackage);
       }
     } catch (e) {
-      debugPrint('Free Fire Max not installed');
+      print('Free Fire Max not installed');
     }
     
     return installedGames;
@@ -47,7 +46,7 @@ class AppLauncherService {
       );
       await intent.launch();
     } catch (e) {
-      debugPrint('Error launching app: $e');
+      print('Error launching app: $e');
     }
   }
   
@@ -58,7 +57,7 @@ class AppLauncherService {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
       }
     } catch (e) {
-      debugPrint('Error opening URL: $e');
+      print('Error opening URL: $e');
     }
   }
 }

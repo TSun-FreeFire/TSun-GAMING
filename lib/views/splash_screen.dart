@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../core/constants/app_colors.dart';
+import '../core/theme/app_theme.dart';
+import '../core/theme/app_typography.dart';
+import '../core/theme/design_tokens.dart';
+import '../core/theme/app_animations.dart';
+import '../core/widgets/mesh_background.dart';
 import '../core/constants/app_strings.dart';
 import 'home_screen.dart';
 
@@ -25,68 +28,111 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: AppColors.backgroundGradient,
-        ),
+      body: MeshBackground(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // App Logo
-              Image.asset(
-                'assets/logo/app_logo.png',
-                width: 150,
-                height: 150,
-                fit: BoxFit.contain,
-              )
-                  .animate()
-                  .scale(duration: 800.ms, curve: Curves.elasticOut)
-                  .fadeIn(duration: 500.ms),
-              
-              const SizedBox(height: 30),
-              
-              // App Name
-              Text(
-                AppStrings.appName,
-                style: GoogleFonts.poppins(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
+              // App Logo with glow
+              Container(
+                decoration: BoxDecoration(
+                  boxShadow: AppTheme.fireGlow(intensity: 0.6),
+                  shape: BoxShape.circle,
+                ),
+                child: Image.asset(
+                  'assets/logo/app_logo.png',
+                  width: 150,
+                  height: 150,
+                  fit: BoxFit.contain,
                 ),
               )
                   .animate()
-                  .fadeIn(delay: 300.ms, duration: 600.ms)
-                  .slideY(begin: 0.3, end: 0, duration: 600.ms),
+                  .scale(
+                    duration: AppAnimations.verySlow,
+                    curve: AppAnimations.elastic,
+                  )
+                  .fadeIn(duration: AppAnimations.slow),
               
-              const SizedBox(height: 10),
+              const SizedBox(height: DesignTokens.space32),
+              
+              // App Name
+              ShaderMask(
+                shaderCallback: (bounds) => AppTheme.fireGradient.createShader(bounds),
+                child: Text(
+                  AppStrings.appName,
+                  style: AppTypography.h1,
+                ),
+              )
+                  .animate()
+                  .fadeIn(
+                    delay: AppAnimations.normal,
+                    duration: AppAnimations.slow,
+                  )
+                  .slideY(
+                    begin: AppAnimations.slideUpStart.dy,
+                    end: AppAnimations.slideUpEnd.dy,
+                    duration: AppAnimations.slow,
+                    curve: AppAnimations.smoothEase,
+                  ),
+              
+              const SizedBox(height: DesignTokens.space12),
               
               // Tagline
               Text(
                 'Guest Account Manager',
-                style: GoogleFonts.roboto(
-                  fontSize: 16,
-                  color: AppColors.textSecondary,
+                style: AppTypography.bodyLarge.copyWith(
+                  color: AppTheme.textMuted,
                   fontWeight: FontWeight.w300,
                 ),
               )
                   .animate()
-                  .fadeIn(delay: 600.ms, duration: 600.ms)
-                  .slideY(begin: 0.3, end: 0, duration: 600.ms),
+                  .fadeIn(
+                    delay: AppAnimations.slow,
+                    duration: AppAnimations.slow,
+                  )
+                  .slideY(
+                    begin: AppAnimations.slideUpStart.dy,
+                    end: AppAnimations.slideUpEnd.dy,
+                    duration: AppAnimations.slow,
+                    curve: AppAnimations.smoothEase,
+                  ),
               
-              const SizedBox(height: 50),
+              const SizedBox(height: DesignTokens.space64),
               
-              // Loading Indicator
-              const SizedBox(
-                width: 40,
-                height: 40,
-                child: CircularProgressIndicator(
-                  strokeWidth: 3,
-                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+              // Loading Spinner with dual borders
+              SizedBox(
+                width: 50,
+                height: 50,
+                child: Stack(
+                  children: [
+                    // Outer ring
+                    CircularProgressIndicator(
+                      strokeWidth: 3,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        AppTheme.primary.withOpacity(0.3),
+                      ),
+                    ),
+                    // Inner ring
+                    Center(
+                      child: SizedBox(
+                        width: 35,
+                        height: 35,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2.5,
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                            AppTheme.primary,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               )
                   .animate(onPlay: (controller) => controller.repeat())
-                  .fadeIn(delay: 900.ms, duration: 500.ms),
+                  .fadeIn(
+                    delay: AppAnimations.verySlow,
+                    duration: AppAnimations.slow,
+                  ),
             ],
           ),
         ),

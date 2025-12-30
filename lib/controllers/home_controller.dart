@@ -3,8 +3,11 @@ import 'package:get/get.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../core/services/file_service.dart';
 import '../core/services/app_launcher_service.dart';
+import '../core/theme/app_theme.dart';
+import '../core/theme/app_typography.dart';
+import '../core/theme/design_tokens.dart';
+import '../core/widgets/glassmorphic_card.dart';
 import '../core/constants/app_strings.dart';
-import '../core/constants/app_colors.dart';
 
 class HomeController extends GetxController {
   final FileService _fileService = FileService();
@@ -16,6 +19,11 @@ class HomeController extends GetxController {
   final RxInt currentSliderIndex = 0.obs;
   final RxBool isLoading = false.obs;
   
+  @override
+  void onInit() {
+    super.onInit();
+    // Removed auto-load of credentials - fields will be empty on app open
+  }
   
   Future<void> injectCredentials() async {
     if (uidController.text.isEmpty || passwordController.text.isEmpty) {
@@ -54,38 +62,46 @@ class HomeController extends GetxController {
   
   void _showGameChooser(List<String> games) {
     Get.bottomSheet(
-      Container(
-        decoration: const BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        padding: const EdgeInsets.all(20),
+      GlassmorphicCard(
+        margin: EdgeInsets.zero,
+        borderRadius: DesignTokens.radiusXLarge,
+        padding: const EdgeInsets.all(DesignTokens.space24),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              AppStrings.selectGame,
-              style: TextStyle(
-                color: AppColors.textPrimary,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+            ShaderMask(
+              shaderCallback: (bounds) => AppTheme.fireGradient.createShader(bounds),
+              child: Text(
+                AppStrings.selectGame,
+                style: AppTypography.h3,
               ),
             ),
-            const SizedBox(height: 20),
-            ...games.map((game) => ListTile(
-              title: Text(
-                game == AppStrings.freeFirePackage ? 'Free Fire' : 'Free Fire Max',
-                style: const TextStyle(color: AppColors.textPrimary),
-              ),
-              trailing: const Icon(Icons.chevron_right, color: AppColors.primary),
+            const SizedBox(height: DesignTokens.space20),
+            ...games.map((game) => GlassmorphicCard(
+              margin: const EdgeInsets.only(bottom: DesignTokens.space8),
+              padding: EdgeInsets.zero,
               onTap: () {
                 Get.back();
                 _appLauncherService.launchApp(game);
               },
+              child: ListTile(
+                title: Text(
+                  game == AppStrings.freeFirePackage ? 'Free Fire' : 'Free Fire Max',
+                  style: AppTypography.body.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.chevron_right_rounded,
+                  color: AppTheme.primary,
+                  size: DesignTokens.iconLarge,
+                ),
+              ),
             )),
           ],
         ),
       ),
+      backgroundColor: Colors.transparent,
     );
   }
   
@@ -111,8 +127,8 @@ class HomeController extends GetxController {
       msg: message,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
-      backgroundColor: isError ? AppColors.error : AppColors.success,
-      textColor: AppColors.textPrimary,
+      backgroundColor: isError ? AppTheme.error : AppTheme.success,
+      textColor: AppTheme.textMain,
       fontSize: 14.0,
     );
   }
