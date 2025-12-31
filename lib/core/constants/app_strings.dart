@@ -45,4 +45,7 @@ class AppStrings {
   static const String noGameInstalled = 'No Free Fire game found. Please install Free Fire or Free Fire Max.';
   static const String selectGame = 'Select Game';
   static const String fillFields = 'Please fill all fields';
+  static const String permissionRequired = 'Storage permission is required to save guest account data';
+  static const String permissionDenied = 'Storage permission denied. Please enable it from app settings to use this feature';
+  static const String permissionGranted = 'Storage permission granted successfully';
 }

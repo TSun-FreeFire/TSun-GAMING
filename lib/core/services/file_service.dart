@@ -4,24 +4,41 @@ import 'package:permission_handler/permission_handler.dart';
 import '../constants/app_strings.dart';
 
 class FileService {
-  Future<bool> requestPermissions() async {
-    if (await Permission.storage.isGranted) {
-      return true;
-    }
-    
+  /// Check if storage permission is already granted
+  Future<bool> checkPermission() async {
+    // Check for Android 11+ permission first
     if (await Permission.manageExternalStorage.isGranted) {
       return true;
     }
     
-    // Request storage permission
-    var status = await Permission.storage.request();
+    // Fallback to legacy storage permission for older Android versions
+    if (await Permission.storage.isGranted) {
+      return true;
+    }
+    
+    return false;
+  }
+  
+  /// Request storage permissions from the user
+  Future<bool> requestPermissions() async {
+    // Check if already granted
+    if (await checkPermission()) {
+      return true;
+    }
+    
+    // Try to request manage external storage permission (Android 11+)
+    var status = await Permission.manageExternalStorage.request();
     if (status.isGranted) {
       return true;
     }
     
-    // For Android 11+, request manage external storage
-    status = await Permission.manageExternalStorage.request();
-    return status.isGranted;
+    // If denied, try legacy storage permission
+    status = await Permission.storage.request();
+    if (status.isGranted) {
+      return true;
+    }
+    
+    return false;
   }
   
   Future<bool> injectCredentials(String uid, String password) async {

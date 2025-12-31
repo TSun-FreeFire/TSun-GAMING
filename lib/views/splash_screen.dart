@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../core/theme/app_theme.dart';
 import '../core/theme/app_typography.dart';
 import '../core/theme/design_tokens.dart';
 import '../core/theme/app_animations.dart';
 import '../core/widgets/mesh_background.dart';
 import '../core/constants/app_strings.dart';
+import '../core/services/file_service.dart';
 import 'home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -17,12 +19,48 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final FileService _fileService = FileService();
+  
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
+    _initializeApp();
+  }
+  
+  Future<void> _initializeApp() async {
+    // Wait for splash animation
+    await Future.delayed(const Duration(seconds: 2));
+    
+    // Request storage permissions
+    final hasPermission = await _fileService.checkPermission();
+    
+    if (!hasPermission) {
+      // Request permission
+      final granted = await _fileService.requestPermissions();
+      
+      if (granted) {
+        _showToast(AppStrings.permissionGranted, isError: false);
+      } else {
+        _showToast(AppStrings.permissionDenied, isError: true);
+      }
+    }
+    
+    // Navigate to home screen
+    await Future.delayed(const Duration(milliseconds: 500));
+    if (mounted) {
       Get.off(() => const HomeScreen(), transition: Transition.fadeIn);
-    });
+    }
+  }
+  
+  void _showToast(String message, {bool isError = false}) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: isError ? AppTheme.error : AppTheme.success,
+      textColor: AppTheme.textMain,
+      fontSize: 14.0,
+    );
   }
 
   @override

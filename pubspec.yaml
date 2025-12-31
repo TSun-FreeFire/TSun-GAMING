@@ -1,7 +1,7 @@
 name: tsun_gaming
 description: "TSun Gaming - Guest Account Manager for Free Fire"
 publish_to: 'none'
-version: 2.0.5+205
+version: 2.0.6+206
 
 environment:
   sdk: ^3.10.0
